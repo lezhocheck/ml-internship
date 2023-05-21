@@ -1,7 +1,6 @@
 import os
 import glob
 import numpy as np
-from typing import Any
 import argparse
 from tensorflow.keras.models import load_model
 from tensorflow.data import Dataset
@@ -34,6 +33,7 @@ class Data:
         def preprocess(path):
             image_contents = read_file(path)
             image = decode_image(image_contents, channels=1)
+            # Resize images to the proper size
             image = resize(image, [28, 28])
             # EMNIST images are rotated and flipped.
             # So, if test images in the folder are in right orientation, 

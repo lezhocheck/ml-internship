@@ -1,10 +1,10 @@
+import os
+from typing import Any
+import tensorflow_datasets as tfds
 from tensorflow import cast, float32
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Flatten, Dense
 from tensorflow.keras.callbacks import EarlyStopping
-import tensorflow_datasets as tfds
-from typing import Any
-import os
 
 
 # Class that handles data and prepares it for model
@@ -46,12 +46,12 @@ class Dataset:
         train_validation_data = process(init_train_validation)
         test_data = process(init_test)
         
-        valiadion_count = int(min(1, max(0, self.VALIDATION_PERCENTAGE)) * len(train_validation_data))
-        validation_data = train_validation_data.take(valiadion_count)
-        train_data = train_validation_data.skip(valiadion_count)
+        validation_count = int(min(1, max(0, self.VALIDATION_PERCENTAGE)) * len(train_validation_data))
+        validation_data = train_validation_data.take(validation_count)
+        train_data = train_validation_data.skip(validation_count)
         
         train_data = train_data.batch(self.BATCH_SIZE)
-        validation_data = validation_data.batch(valiadion_count)
+        validation_data = validation_data.batch(validation_count)
         test_data = test_data.batch(len(test_data))
         
         v_inputs, v_targets = next(iter(validation_data))
@@ -71,11 +71,14 @@ class Model:
             Dense(128, activation='relu'),
             Dense(62, activation='softmax')
         ])
+        # Compile the model with sparse_categorical_crossentropy loss
+        # because targets are categorical and are not one-hot encoded
         self._model.compile(optimizer='adam', 
                             loss='sparse_categorical_crossentropy', 
                             metrics=['accuracy'])
     
     def fit(self, dataset: Dataset) -> None:
+        # Adding early stopping to prevent possible overfitting
         early_stopping = EarlyStopping(monitor='val_loss', patience=3, verbose=1)
         self._model.fit(dataset.train, 
                         epochs=self.NUM_EPOCHS, 
