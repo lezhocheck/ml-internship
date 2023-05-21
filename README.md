@@ -30,7 +30,7 @@ The model architecture is defined using the Sequential API from the Tensorflow K
 
 - There are three dense layers with 256, 256, and 128 units, respectively. Each dense layer is followed by the ReLu activation function, which introduces non-linearity to the model.
 
-- The output layer has 62 units, corresponding to the number of classes in the classification task (VINs contain only upper-case letters and digits, but some letters can be written as lower-case, so it is better to classify them as lower-case letters and then convert them to upper-case if necessary). It uses the softmax activation function to produce a probability distribution over the classes.
+- The output layer has 62 units, corresponding to the number of classes in the classification task (VINs contain only uppercase letters and digits, but some letters can be written as lowercase, so it is better to classify them as lowercase letters and then convert them to uppercase if necessary). This layer uses the softmax activation function to produce a probability distribution over the classes.
 
 The model is compiled with the Adam optimizer, which is one of the most efficient stochastic gradient descent algorithms. The loss function used is sparse categorical cross-entropy, suitable for categorical classification problems where the target labels are integers.
 
@@ -43,7 +43,7 @@ After training the model for 12 epochs, the following results were obtained:
 Also test accuracy was measured:
 - test accuracy ≈ 0.85
 
-These test results demonstrate capability of the model to accurately classify VINs in real-world scenarios. The high test accuracy suggests that the model has learned relevant patterns and features from the training data, allowing it to generalize well and perform effectively on unseen VIN images. 
+These test results demonstrate capability of the model to accurately classify VINs in real-world scenarios. The test accuracy suggests that the model in most cases has learned relevant patterns and features from the training data, allowing it to generalize well and perform effectively on unseen VIN images. 
 
 However, further improvements can be made to make the predictions more robust:
 - additional hyperparameter tuning, such as learning rate, batch size, and number of layers, can potentially improve its performance.
