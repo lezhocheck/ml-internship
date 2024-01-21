@@ -1,4 +1,4 @@
-# CHI ML Internship 2023
+# ML Internship 2023
 
 ## Authors
 
